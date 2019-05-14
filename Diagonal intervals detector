@@ -1,0 +1,15 @@
+from music21 import *
+import numpy as np
+
+Josquin_secure_corpus=corpus.corpora.LocalCorpus()
+Josquin_secure_corpus.addPath('XML')
+Agnus_2=corpus.parse('XML/Josquin Missa Ave maris stella - Agnus II.xml')
+Agnus_2_Parts=instrument.partitionByInstrument(Agnus_2)
+Soprano=[]
+Tenor=[]
+for Notes_Soprano in Agnus_2_Parts.parts['Soprano'].getElementsByClass(note.Note):
+    Soprano.append([Notes_Soprano, Notes_Soprano.offset])
+for Notes_Tenor in Agnus_2_Parts.parts['Tenor'].getElementsByClass(note.Note):
+    Tenor.append([Notes_Tenor, Notes_Tenor.offset])
+for i in range (0,20):
+    print(interval.notesToChromatic(Soprano[i][0],Tenor[1+i][0]))
