@@ -10,25 +10,25 @@ Agnus_2_Upper_voice = {}
 Agnus_2_Lower_voice = {}
 Interval_pattern = []
 
-L_sop=len(Agnus_2_Parts.parts['Soprano'].notesAndRests.stream())
-L_ten=len(Agnus_2_Parts.parts['Tenor'].notesAndRests.stream())
+L_sop=len(Agnus_2_Parts.parts[0].notesAndRests.stream())
+L_ten=len(Agnus_2_Parts.parts[1].notesAndRests.stream())
 L=min(L_sop, L_ten)
 
 for i in range (0,L_sop):
     try:
-        Agnus_2_Parts.parts['Soprano'].notesAndRests.stream()[i].pitch
+        Agnus_2_Parts[0].notesAndRests.stream()[i].pitch
     except:
-        Agnus_2_Upper_voice[Agnus_2_Parts.parts['Soprano'].notesAndRests.stream()[i].offset]=0
+        Agnus_2_Upper_voice[Agnus_2_Parts[0].notesAndRests.stream()[i].offset]=0
     else:
-        Agnus_2_Upper_voice[Agnus_2_Parts.parts['Soprano'].notesAndRests.stream()[i].offset]=Agnus_2_Parts.parts['Soprano'].notesAndRests.stream()[i].pitch
+        Agnus_2_Upper_voice[Agnus_2_Parts[0].notesAndRests.stream()[i].offset]=Agnus_2_Parts[0].notesAndRests.stream()[i].pitch
 
 for i in range (0,L_ten):
     try:
-        Agnus_2_Parts.parts['Tenor'].notesAndRests.stream()[i].pitch
+        Agnus_2_Parts.parts[1].notesAndRests.stream()[i].pitch
     except:
-        Agnus_2_Lower_voice[Agnus_2_Parts.parts['Tenor'].notesAndRests.stream()[i].offset]=0
+        Agnus_2_Lower_voice[Agnus_2_Parts[1].notesAndRests.stream()[i].offset]=0
     else:
-        Agnus_2_Lower_voice[Agnus_2_Parts.parts['Tenor'].notesAndRests.stream()[i].offset]=Agnus_2_Parts.parts['Tenor'].notesAndRests.stream()[i].pitch
+        Agnus_2_Lower_voice[Agnus_2_Parts[1].notesAndRests.stream()[i].offset]=Agnus_2_Parts[1].notesAndRests.stream()[i].pitch
 
 for i in range (-8,9):
     for position in Agnus_2_Lower_voice:
