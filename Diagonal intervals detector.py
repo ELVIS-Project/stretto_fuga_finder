@@ -39,6 +39,6 @@ for i in range (-8,9):
                 if Agnus_2_Upper_voice[position+i] == 0:
                     print("D = ",i, "Interval = 0")
                 else:
-                    print("D = ",i, "Interval = ", interval.notesToChromatic(Agnus_2_Lower_voice[position],Agnus_2_Upper_voice[position+i]))
+                    print("D = ",i, "Interval = ", interval.notesToInterval(Agnus_2_Lower_voice[position],Agnus_2_Upper_voice[position+i]))
         else:
             print("D = ",i, "Interval = 0")
