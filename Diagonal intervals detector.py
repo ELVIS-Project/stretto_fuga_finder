@@ -3,7 +3,7 @@ import numpy as np
 from operator import itemgetter
 
 Josquin_secure_corpus=corpus.corpora.LocalCorpus()
-Josquin_secure_corpus.addPath('XML')
+Josquin_secure_corpus.addPath('../Mass duos Josquin - De La Rue/Josquin (secure)/XML')
 Agnus_2=corpus.parse('XML/Josquin Missa Ave maris stella - Agnus II.xml')
 Agnus_2_Parts=instrument.partitionByInstrument(Agnus_2)
 
