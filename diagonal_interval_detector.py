@@ -2,8 +2,8 @@ from music21 import *
 import numpy as np
 
 Josquin_secure_corpus=corpus.corpora.LocalCorpus()
-Josquin_secure_corpus.addPath('../Mass duos Josquin - De La Rue/Josquin (secure)/XML')
-Agnus_2=corpus.parse('XML/Josquin Missa Ave maris stella - Agnus II.xml')
+Josquin_secure_corpus.addPath('.')
+Agnus_2=corpus.parse('Josquin Missa Ave maris stella - Agnus II.xml')
 Agnus_2_Parts=instrument.partitionByInstrument(Agnus_2)
 
 Agnus_2_Upper_voice = {}
