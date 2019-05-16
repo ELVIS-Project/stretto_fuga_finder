@@ -32,7 +32,7 @@ for i in range (0,L_upp):
     except:
         Piece_Upper_voice[Piece_Parts[0].notesAndRests.stream()[i].offset]=0
     else:
-        Piece_Upper_voice[Piece_Parts[0].notesAndRests.stream()[i].offset]=Piece_Parts[0].notesAndRests.stream()[i].pitch
+        Piece_Upper_voice[Piece_Parts[0].notesAndRests.stream()[i].offset]=[Piece_Parts[0].notesAndRests.stream()[i].pitch,Piece_Parts[0].notesAndRests.stream()[i].measureNumber]
 
 for i in range (0,L_low):
     try:
@@ -40,7 +40,7 @@ for i in range (0,L_low):
     except:
         Piece_Lower_voice[Piece_Parts[1].notesAndRests.stream()[i].offset]=0
     else:
-        Piece_Lower_voice[Piece_Parts[1].notesAndRests.stream()[i].offset]=Piece_Parts[1].notesAndRests.stream()[i].pitch
+        Piece_Lower_voice[Piece_Parts[1].notesAndRests.stream()[i].offset]=[Piece_Parts[1].notesAndRests.stream()[i].pitch,Piece_Parts[1].notesAndRests.stream()[i].measureNumber]
 
 for i in range (-8,9):
     if i<0:
@@ -58,6 +58,6 @@ for i in range (-8,9):
                 if Piece_Upper_voice[position+i] == 0:
                     print("Rest")
                 else:
-                    print(Values[abs(i)],"a",interval.notesToInterval(Piece_Lower_voice[position],Piece_Upper_voice[position+i]).niceName.split()[1],Imitation)
+                    print("At Measure",Piece_Lower_voice[position][1]," ",Values[abs(i)],"a",interval.notesToInterval(Piece_Lower_voice[position][0],Piece_Upper_voice[position+i][0]).niceName.split()[1],Imitation)
         else:
             print("Free counterpoint")
