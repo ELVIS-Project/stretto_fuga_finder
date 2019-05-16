@@ -10,6 +10,18 @@ Piece_Upper_voice = {}
 Piece_Lower_voice = {}
 Interval_pattern = []
 
+Values = {
+0: "Paralel intervals at",
+1: "Imitation at the minime",
+2: "Imitation at the semi-breve",
+3: "Imitation at the doted semi-breve",
+4: "Imitation at the breve",
+5: "Imitation at the breve and a minime",
+6: "Imitation at the dotted breve",
+7: "Imitation at the breve and a doted semi-breve",
+8: "Imitation at the longa"
+}
+
 L_upp=len(Piece_Parts.parts[0].notesAndRests.stream())
 L_low=len(Piece_Parts.parts[1].notesAndRests.stream())
 L=min(L_upp, L_low)
@@ -31,14 +43,21 @@ for i in range (0,L_low):
         Piece_Lower_voice[Piece_Parts[1].notesAndRests.stream()[i].offset]=Piece_Parts[1].notesAndRests.stream()[i].pitch
 
 for i in range (-8,9):
+    if i<0:
+        Imitation="below"
+    elif i == 0:
+        Imitation=""
+    else:
+        Imitation="above"
+
     for position in Piece_Lower_voice:
         if position+i in Piece_Upper_voice:
             if Piece_Lower_voice[position] == 0:
-                print("D = ",i, "Interval = 0")
+                print("Rest")
             else:
                 if Piece_Upper_voice[position+i] == 0:
-                    print("D = ",i, "Interval = 0")
+                    print("Rest")
                 else:
-                    print("D = ",i, "Interval = ", interval.notesToInterval(Piece_Lower_voice[position],Piece_Upper_voice[position+i]).niceName.split()[1])
+                    print(Values[abs(i)],"a",interval.notesToInterval(Piece_Lower_voice[position],Piece_Upper_voice[position+i]).niceName.split()[1],Imitation)
         else:
-            print("D = ",i, "Interval = 0")
+            print("Free counterpoint")
