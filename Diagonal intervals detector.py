@@ -3,42 +3,42 @@ import numpy as np
 
 Josquin_secure_corpus=corpus.corpora.LocalCorpus()
 Josquin_secure_corpus.addPath('../Mass duos Josquin - De La Rue/Josquin (secure)/XML')
-Agnus_2=corpus.parse('XML/Josquin Missa Ave maris stella - Agnus II.xml')
-Agnus_2_Parts=instrument.partitionByInstrument(Agnus_2)
+Piece=corpus.parse('XML/Josquin Missa Ave maris stella - Agnus II.xml')
+Piece_Parts=instrument.partitionByInstrument(Piece)
 
-Agnus_2_Upper_voice = {}
-Agnus_2_Lower_voice = {}
+Piece_Upper_voice = {}
+Piece_Lower_voice = {}
 Interval_pattern = []
 
-L_sop=len(Agnus_2_Parts.parts[0].notesAndRests.stream())
-L_ten=len(Agnus_2_Parts.parts[1].notesAndRests.stream())
-L=min(L_sop, L_ten)
+L_upp=len(Piece_Parts.parts[0].notesAndRests.stream())
+L_low=len(Piece_Parts.parts[1].notesAndRests.stream())
+L=min(L_upp, L_low)
 
-for i in range (0,L_sop):
+for i in range (0,L_upp):
     try:
-        Agnus_2_Parts[0].notesAndRests.stream()[i].pitch
+        Piece_Parts[0].notesAndRests.stream()[i].pitch
     except:
-        Agnus_2_Upper_voice[Agnus_2_Parts[0].notesAndRests.stream()[i].offset]=0
+        Piece_Upper_voice[Piece_Parts[0].notesAndRests.stream()[i].offset]=0
     else:
-        Agnus_2_Upper_voice[Agnus_2_Parts[0].notesAndRests.stream()[i].offset]=Agnus_2_Parts[0].notesAndRests.stream()[i].pitch
+        Piece_Upper_voice[Piece_Parts[0].notesAndRests.stream()[i].offset]=Piece_Parts[0].notesAndRests.stream()[i].pitch
 
-for i in range (0,L_ten):
+for i in range (0,L_low):
     try:
-        Agnus_2_Parts.parts[1].notesAndRests.stream()[i].pitch
+        Piece_Parts.parts[1].notesAndRests.stream()[i].pitch
     except:
-        Agnus_2_Lower_voice[Agnus_2_Parts[1].notesAndRests.stream()[i].offset]=0
+        Piece_Lower_voice[Piece_Parts[1].notesAndRests.stream()[i].offset]=0
     else:
-        Agnus_2_Lower_voice[Agnus_2_Parts[1].notesAndRests.stream()[i].offset]=Agnus_2_Parts[1].notesAndRests.stream()[i].pitch
+        Piece_Lower_voice[Piece_Parts[1].notesAndRests.stream()[i].offset]=Piece_Parts[1].notesAndRests.stream()[i].pitch
 
 for i in range (-8,9):
-    for position in Agnus_2_Lower_voice:
-        if position+i in Agnus_2_Upper_voice:
-            if Agnus_2_Lower_voice[position] == 0:
+    for position in Piece_Lower_voice:
+        if position+i in Piece_Upper_voice:
+            if Piece_Lower_voice[position] == 0:
                 print("D = ",i, "Interval = 0")
             else:
-                if Agnus_2_Upper_voice[position+i] == 0:
+                if Piece_Upper_voice[position+i] == 0:
                     print("D = ",i, "Interval = 0")
                 else:
-                    print("D = ",i, "Interval = ", interval.notesToInterval(Agnus_2_Lower_voice[position],Agnus_2_Upper_voice[position+i]))
+                    print("D = ",i, "Interval = ", interval.notesToInterval(Piece_Lower_voice[position],Piece_Upper_voice[position+i]).niceName.split()[1])
         else:
             print("D = ",i, "Interval = 0")
