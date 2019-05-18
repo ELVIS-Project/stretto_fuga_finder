@@ -53,10 +53,10 @@ for i in range (-8,9):
     for position in Piece_Lower_voice:
         if position+i in Piece_Upper_voice:
             if Piece_Lower_voice[position] == 0:
-                print("Rest")
+                print("At Measure",Piece_Lower_voice[position][1],"Rest")
             else:
                 if Piece_Upper_voice[position+i] == 0:
-                    print("Rest")
+                    print("At Measure",Piece_Lower_voice[position][1],"Rest")
                 else:
                     print("At Measure",Piece_Lower_voice[position][1]," ",Values[abs(i)],"a",interval.notesToInterval(Piece_Lower_voice[position][0],Piece_Upper_voice[position+i][0]).niceName.split()[1],Imitation)
         else:
