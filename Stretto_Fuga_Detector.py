@@ -1,11 +1,11 @@
+import numpy as np
+import os
 from music21 import *
 from collections import OrderedDict
-import numpy as np
 
 Josquin_secure_corpus=corpus.corpora.LocalCorpus()
 Josquin_secure_corpus.addPath('../Mass duos Josquin - De La Rue/Josquin (secure)/XML')
-Piece=corpus.parse('XML/Josquin Missa Ave maris stella - Agnus II.xml')
-
+Piece=corpus.parse('Josquin Missa Ave maris stella - Agnus II.xml')
 
 def DiagInterval(note1,note2):
     if note1 == 'Rest':
@@ -19,7 +19,7 @@ def DiagInterval(note1,note2):
 def ImitationDetector(score):
 
     Values = {
-    0: "Parallel motion",1: "Crotchet",2: "Minime",3: "Doted minime",4: "Semibreve",5: "Semibreve and a crotchet",6: "Dotted semibreve",7: "Semibreve and a doted minime",8: "Breve"
+    0: "Parallel motion",1: "Crotchet",2: "Minime",3: "Doted minime",4: "Semibreve",5: "",6: "Doted semibreve",7: "",8: "Breve",9:"",10:"",11:"",12:"Doted breve",13:"",14:"",15:"",16: "Longa"
              }
 
     Parts=instrument.partitionByInstrument(score)
@@ -50,16 +50,16 @@ def ImitationDetector(score):
 
     Imitation_list = []
 
-    for k in range (-8,9):
+    for k in range (-16,17):
 
         if k<0:
-            Imitation="below"
+            Emplacement="below"
         elif k == 0:
-            Imitation=""
+            Emplacement=""
         else:
-            Imitation="above"
+            Emplacement="above"
 
-        A=[]
+        Imitation=[]
         B=0
 
         for l in range (0,L-1):
@@ -68,7 +68,7 @@ def ImitationDetector(score):
                     if DiagInterval(Lower_voice[list(Lower_voice.items())[l][0]][0],Upper_voice[list(Lower_voice.items())[l][0]+k][0]) == DiagInterval(Lower_voice[list(Lower_voice.items())[l+1][0]][0],Upper_voice[list(Lower_voice.items())[l+1][0]+k][0]):
                         B=B+1
                         if B==3:
-                            A.append(["Measure {}".format(Lower_voice[list(Lower_voice.items())[l-2][0]][1]),Values[abs(k)],DiagInterval(Lower_voice[list(Lower_voice.items())[l][0]][0],Upper_voice[list(Lower_voice.items())[l][0]+k][0])+" "+Imitation,Lower_voice[list(Lower_voice.items())[l-2][0]][2],None])
+                            Imitation.append(["Measure {}".format(Lower_voice[list(Lower_voice.items())[l-2][0]][1]),Values[abs(k)],DiagInterval(Lower_voice[list(Lower_voice.items())[l][0]][0],Upper_voice[list(Lower_voice.items())[l][0]+k][0])+" "+Emplacement,Lower_voice[list(Lower_voice.items())[l-2][0]][2],None,Piece[5][Lower_voice[list(Lower_voice.items())[l-1][0]][1]].duration.quarterLength])
                         else:
                             pass
                     elif DiagInterval(Lower_voice[list(Lower_voice.items())[l+1][0]][0],Upper_voice[list(Lower_voice.items())[l+1][0]+k][0])=='Rest':
@@ -76,13 +76,13 @@ def ImitationDetector(score):
                              if DiagInterval(Lower_voice[list(Lower_voice.items())[l][0]][0],Upper_voice[list(Lower_voice.items())[l][0]+k][0]) == DiagInterval(Lower_voice[list(Lower_voice.items())[l+2][0]][0],Upper_voice[list(Lower_voice.items())[l+2][0]+k][0]):
                                  B=B+1
                              else:
-                                 if A!=[]:
-                                     if A[-1][4]!=None:
+                                 if Imitation!=[]:
+                                     if Imitation[-1][4]!=None:
                                          pass
                                      else:
-                                         A[-1][0]=A[-1][0]+" to measure {}".format(Lower_voice[list(Lower_voice.items())[l][0]][1])
-                                         A[-1][3]=Lower_voice[list(Lower_voice.items())[l][0]][2]-A[-1][3]
-                                         A[-1][4]=B
+                                         Imitation[-1][0]=Imitation[-1][0]+" to measure {}".format(Lower_voice[list(Lower_voice.items())[l][0]][1])
+                                         Imitation[-1][3]=Lower_voice[list(Lower_voice.items())[l][0]][2]-Imitation[-1][3]
+                                         Imitation[-1][4]=B
                                  else:
                                      pass
                                  B=0
@@ -93,61 +93,87 @@ def ImitationDetector(score):
                             if DiagInterval(Lower_voice[list(Lower_voice.items())[l-1][0]][0],Upper_voice[list(Lower_voice.items())[l-1][0]+k][0]) == DiagInterval(Lower_voice[list(Lower_voice.items())[l+1][0]][0],Upper_voice[list(Lower_voice.items())[l+1][0]+k][0]):
                              B=B+1
                             else:
-                                if A!=[]:
-                                    if A[-1][4]!=None:
+                                if Imitation!=[]:
+                                    if Imitation[-1][4]!=None:
                                         pass
                                     else:
-                                        A[-1][0]=A[-1][0]+" to measure {}".format(Lower_voice[list(Lower_voice.items())[l][0]][1])
-                                        A[-1][3]=Lower_voice[list(Lower_voice.items())[l][0]][2]-A[-1][3]
-                                        A[-1][4]=B
+                                        Imitation[-1][0]=Imitation[-1][0]+" to measure {}".format(Lower_voice[list(Lower_voice.items())[l][0]][1])
+                                        Imitation[-1][3]=Lower_voice[list(Lower_voice.items())[l][0]][2]-Imitation[-1][3]
+                                        Imitation[-1][4]=B
                                 else:
                                     pass
                                 B=0
                         else:
                             pass
                     else:
-                        if A!=[]:
-                            if A[-1][4]!=None:
+                        if Imitation!=[]:
+                            if Imitation[-1][4]!=None:
                                 pass
                             else:
-                                A[-1][0]=A[-1][0]+" to measure {}".format(Lower_voice[list(Lower_voice.items())[l][0]][1])
-                                A[-1][3]=Lower_voice[list(Lower_voice.items())[l][0]][2]-A[-1][3]
-                                A[-1][4]=B
+                                Imitation[-1][0]=Imitation[-1][0]+" to measure {}".format(Lower_voice[list(Lower_voice.items())[l][0]][1])
+                                Imitation[-1][3]=Lower_voice[list(Lower_voice.items())[l][0]][2]-Imitation[-1][3]
+                                Imitation[-1][4]=B
                         else:
                             pass
                         B=0
                 else:
-                    if A!=[]:
-                        if A[-1][4]!=None:
+                    if Imitation!=[]:
+                        if Imitation[-1][4]!=None:
                             pass
                         else:
-                            A[-1][0]=A[-1][0]+" to measure {}".format(Lower_voice[list(Lower_voice.items())[l][0]][1])
-                            A[-1][3]=Lower_voice[list(Lower_voice.items())[l][0]][2]-A[-1][3]
-                            A[-1][4]=B
+                            Imitation[-1][0]=Imitation[-1][0]+" to measure {}".format(Lower_voice[list(Lower_voice.items())[l][0]][1])
+                            Imitation[-1][3]=Lower_voice[list(Lower_voice.items())[l][0]][2]-Imitation[-1][3]
+                            Imitation[-1][4]=B
                     else:
                         pass
             else:
-                if A!=[]:
-                    if A[-1][4]!=None:
+                if Imitation!=[]:
+                    if Imitation[-1][4]!=None:
                         pass
                     else:
-                        A[-1][0]=A[-1][0]+" to measure {}".format(Lower_voice[list(Lower_voice.items())[l][0]][1])
-                        A[-1][3]=Lower_voice[list(Lower_voice.items())[l][0]][2]-A[-1][3]
-                        A[-1][4]=B
+                        Imitation[-1][0]=Imitation[-1][0]+" to measure {}".format(Lower_voice[list(Lower_voice.items())[l][0]][1])
+                        Imitation[-1][3]=Lower_voice[list(Lower_voice.items())[l][0]][2]-Imitation[-1][3]
+                        Imitation[-1][4]=B
                 else:
                     pass
 
-        if A!=[]:
-            if A[-1][4]!=None:
-                Imitation_list.append(A)
-                A=[]
+        if Imitation!=[]:
+            if Imitation[-1][4]!=None:
+                Imitation_list.append(Imitation)
+                Imitation=[]
             else:
-                A[-1][0]=A[-1][0]+" to measure {}".format(Lower_voice[list(Lower_voice.items())[l][0]][1])
-                A[-1][3]=Lower_voice[list(Lower_voice.items())[l][0]][2]-A[-1][3]
-                A[-1][4]=B
-                Imitation_list.append(A)
-                A=[]
+                Imitation[-1][0]=Imitation[-1][0]+" to measure {}".format(Lower_voice[list(Lower_voice.items())[l][0]][1])
+                Imitation[-1][3]=Lower_voice[list(Lower_voice.items())[l][0]][2]-Imitation[-1][3]
+                Imitation[-1][4]=B
+                Imitation_list.append(Imitation)
+                Imitation=[]
         else:
             pass
         B=0
     return Imitation_list
+
+
+def SFDetector(score):
+
+    SF_List=[[Piece[2].content,Piece[1].content,Piece[0].content]]
+    Imitation_List=ImitationDetector(score)
+    for Interval in Imitation_List:
+        for Imitation in Interval:
+            if Imitation[3]>=2*Imitation[5]:
+                SF_List.append([Imitation[0],Imitation[1],Imitation[2],round(Imitation[3]/Piece[5][-1].offset*100),round(Imitation[4]/Imitation[3],2)])
+            else:
+                pass
+    return SF_List
+
+
+def SIDetector(score):
+
+    SI_List=[[Piece[2].content,Piece[1].content,Piece[0].content]]
+    Imitation_List=ImitationDetector(score)
+    for Interval in Imitation_List:
+        for Imitation in Interval:
+            if Imitation[3]<2*Imitation[5]:
+                SI_List.append([Imitation[0],Imitation[1],Imitation[2]])
+            else:
+                pass
+    return SI_List
