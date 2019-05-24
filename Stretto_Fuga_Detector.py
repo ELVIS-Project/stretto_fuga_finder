@@ -40,30 +40,32 @@ def ImitationDetector(score):
         16: "Longa"
     }
 
-    Parts= [p.flat for p in score.parts]
+    Parts= [p.flat.notesAndRests.stream() for p in score.parts]
 
-    L_upp=len(Parts[0].notesAndRests.stream())
-    L_low=len(Parts[1].notesAndRests.stream())
+    L_upp=len(Parts[0])
+    L_low=len(Parts[1])
     L=min(L_upp, L_low)
 
     Upper_voice = OrderedDict()
     Lower_voice = OrderedDict()
 
     for i in range (0,L_upp):
+        current_event = Parts[0][i]
         try:
-            Parts[0].notesAndRests.stream()[i].pitch
+            current_event.pitch
         except:
-            Upper_voice[Parts[0].notesAndRests.stream()[i].offset]=["Rest",Parts[0].notesAndRests.stream()[i].measureNumber,Parts[0].notesAndRests.stream()[i].offset]
+            Upper_voice[current_event.offset]=["Rest",current_event.measureNumber,current_event.offset]
         else:
-            Upper_voice[Parts[0].notesAndRests.stream()[i].offset]=[Parts[0].notesAndRests.stream()[i].pitch,Parts[0].notesAndRests.stream()[i].measureNumber,Parts[0].notesAndRests.stream()[i].offset]
+            Upper_voice[current_event.offset]=[current_event.pitch,current_event.measureNumber,current_event.offset]
 
     for j in range (0,L_low):
+        current_event = Parts[1][j]
         try:
-            Parts.parts[1].notesAndRests.stream()[j].pitch
+            current_event.pitch
         except:
-            Lower_voice[Parts[1].notesAndRests.stream()[j].offset]=["Rest",Parts[1].notesAndRests.stream()[j].measureNumber,Parts[1].notesAndRests.stream()[j].offset]
+            Lower_voice[current_event.offset]=["Rest",current_event.measureNumber,current_event.offset]
         else:
-            Lower_voice[Parts[1].notesAndRests.stream()[j].offset]=[Parts[1].notesAndRests.stream()[j].pitch,Parts[1].notesAndRests.stream()[j].measureNumber,Parts[1].notesAndRests.stream()[j].offset]
+            Lower_voice[current_event.offset]=[current_event.pitch,current_event.measureNumber,current_event.offset]
 
 
     Imitation_list = []
@@ -85,9 +87,9 @@ def ImitationDetector(score):
                 if list(Lower_voice.items())[l+1][0]+k in Upper_voice:
                     if DiagInterval(Lower_voice[list(Lower_voice.items())[l][0]][0],Upper_voice[list(Lower_voice.items())[l][0]+k][0]) == DiagInterval(Lower_voice[list(Lower_voice.items())[l+1][0]][0],Upper_voice[list(Lower_voice.items())[l+1][0]+k][0]):
                         B=B+1
-                        if DiagInterval(Lower_voice[list(Lower_voice.items())[l][0]][0],Upper_voice[list(Lower_voice.items())[l][0]+k][0]) == 'Rest':
-                            pass
-                        elif B==3:
+                        # if DiagInterval(Lower_voice[list(Lower_voice.items())[l][0]][0],Upper_voice[list(Lower_voice.items())[l][0]+k][0]) == 'Rest':
+                        #     pass
+                        if B==3:
                             Imitation.append(["Measure {}".format(Lower_voice[list(Lower_voice.items())[l-2][0]][1]),Values[abs(k)],DiagInterval(Lower_voice[list(Lower_voice.items())[l][0]][0],Upper_voice[list(Lower_voice.items())[l][0]+k][0])+" "+Emplacement,Lower_voice[list(Lower_voice.items())[l-2][0]][2],None,score[5][Lower_voice[list(Lower_voice.items())[l-1][0]][1]].duration.quarterLength])
                         else:
                             pass
