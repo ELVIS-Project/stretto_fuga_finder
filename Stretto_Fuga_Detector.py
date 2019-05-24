@@ -51,22 +51,13 @@ def ImitationDetector(score):
 
     for i in range (0,L_upp):
         current_event = Parts[0][i]
-        try:
-            current_event.pitch
-        except:
-            Upper_voice[current_event.offset]=["Rest",current_event.measureNumber,current_event.offset]
-        else:
-            Upper_voice[current_event.offset]=[current_event.pitch,current_event.measureNumber,current_event.offset]
-
+        pitch_rest = current_event.pitch if hasattr(current_event, "pitch") else "Rest"
+        Upper_voice[current_event.offset] = [pitch_rest, current_event.measureNumber, current_event.offset]
+        
     for j in range (0,L_low):
         current_event = Parts[1][j]
-        try:
-            current_event.pitch
-        except:
-            Lower_voice[current_event.offset]=["Rest",current_event.measureNumber,current_event.offset]
-        else:
-            Lower_voice[current_event.offset]=[current_event.pitch,current_event.measureNumber,current_event.offset]
-
+        pitch_rest = current_event.pitch if hasattr(current_event, "pitch") else "Rest"
+        Lower_voice[current_event.offset] = [pitch_rest, current_event.measureNumber, current_event.offset]
 
     Imitation_list = []
 
