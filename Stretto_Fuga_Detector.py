@@ -53,7 +53,7 @@ def ImitationDetector(score):
         current_event = Parts[0][i]
         pitch_rest = current_event.pitch if hasattr(current_event, "pitch") else "Rest"
         Upper_voice[current_event.offset] = [pitch_rest, current_event.measureNumber, current_event.offset]
-        
+
     for j in range (0,L_low):
         current_event = Parts[1][j]
         pitch_rest = current_event.pitch if hasattr(current_event, "pitch") else "Rest"
@@ -78,33 +78,34 @@ def ImitationDetector(score):
                 if list(Lower_voice.items())[l+1][0]+k in Upper_voice:
                     if DiagInterval(Lower_voice[list(Lower_voice.items())[l][0]][0],Upper_voice[list(Lower_voice.items())[l][0]+k][0]) == DiagInterval(Lower_voice[list(Lower_voice.items())[l+1][0]][0],Upper_voice[list(Lower_voice.items())[l+1][0]+k][0]):
                         B=B+1
-                        # if DiagInterval(Lower_voice[list(Lower_voice.items())[l][0]][0],Upper_voice[list(Lower_voice.items())[l][0]+k][0]) == 'Rest':
-                        #     pass
-                        if B==3:
-                            Imitation.append(["Measure {}".format(Lower_voice[list(Lower_voice.items())[l-2][0]][1]),Values[abs(k)],DiagInterval(Lower_voice[list(Lower_voice.items())[l][0]][0],Upper_voice[list(Lower_voice.items())[l][0]+k][0])+" "+Emplacement,Lower_voice[list(Lower_voice.items())[l-2][0]][2],None,score[5][Lower_voice[list(Lower_voice.items())[l-1][0]][1]].duration.quarterLength])
+                        if DiagInterval(Lower_voice[list(Lower_voice.items())[l][0]][0],Upper_voice[list(Lower_voice.items())[l][0]+k][0]) == 'Rest':
+                            pass
+                        elif B==3:
+                            Imitation.append(["Measure {}".format(Lower_voice[list(Lower_voice.items())[l-2][0]][1]),Values[abs(k)],DiagInterval(Lower_voice[list(Lower_voice.items())[l][0]][0],Upper_voice[list(Lower_voice.items())[l][0]+k][0])+" "+Emplacement,Lower_voice[list(Lower_voice.items())[l-2][0]][2],None,score.measure(Lower_voice[list(Lower_voice.items())[l][0]][1]).duration.quarterLength])
                         else:
                             pass
                     elif DiagInterval(Lower_voice[list(Lower_voice.items())[l+1][0]][0],Upper_voice[list(Lower_voice.items())[l+1][0]+k][0])=='Rest':
-                        if list(Lower_voice.items())[l+2][0]+k in Upper_voice:
-                             if DiagInterval(Lower_voice[list(Lower_voice.items())[l][0]][0],Upper_voice[list(Lower_voice.items())[l][0]+k][0]) == DiagInterval(Lower_voice[list(Lower_voice.items())[l+2][0]][0],Upper_voice[list(Lower_voice.items())[l+2][0]+k][0]):
-                                 B=B+1
-                             else:
-                                 if Imitation!=[]:
-                                     if Imitation[-1][4]!=None:
-                                         pass
-                                     else:
-                                         Imitation[-1][0]=Imitation[-1][0]+" to measure {}".format(Lower_voice[list(Lower_voice.items())[l][0]][1])
-                                         Imitation[-1][3]=Lower_voice[list(Lower_voice.items())[l][0]][2]-Imitation[-1][3]
-                                         Imitation[-1][4]=B
-                                 else:
-                                     pass
-                                 B=0
-                        else:
                             pass
+                    #    if list(Lower_voice.items())[l+2][0]+k in Upper_voice:
+                    #         if DiagInterval(Lower_voice[list(Lower_voice.items())[l][0]][0],Upper_voice[list(Lower_voice.items())[l][0]+k][0]) == DiagInterval(Lower_voice[list(Lower_voice.items())[l+2][0]][0],Upper_voice[list(Lower_voice.items())[l+2][0]+k][0]):
+                    #             B=B+1
+                    #         else:
+                    #             if Imitation!=[]:
+                    #                 if Imitation[-1][4]!=None:
+                    #                     pass
+                    #                 else:
+                    #                     Imitation[-1][0]=Imitation[-1][0]+" to measure {}".format(Lower_voice[list(Lower_voice.items())[l][0]][1])
+                    #                     Imitation[-1][3]=Lower_voice[list(Lower_voice.items())[l][0]][2]-Imitation[-1][3]
+                    #                     Imitation[-1][4]=B
+                    #             else:
+                    #                 pass
+                    #             B=0
+                    #    else:
+                    #        pass
                     elif DiagInterval(Lower_voice[list(Lower_voice.items())[l][0]][0],Upper_voice[list(Lower_voice.items())[l][0]+k][0])=='Rest':
                         if list(Lower_voice.items())[l-1][0]+k in Upper_voice:
                             if DiagInterval(Lower_voice[list(Lower_voice.items())[l-1][0]][0],Upper_voice[list(Lower_voice.items())[l-1][0]+k][0]) == DiagInterval(Lower_voice[list(Lower_voice.items())[l+1][0]][0],Upper_voice[list(Lower_voice.items())[l+1][0]+k][0]):
-                             B=B+1
+                             B=B+2
                             else:
                                 if Imitation!=[]:
                                     if Imitation[-1][4]!=None:
@@ -178,7 +179,7 @@ def SFDetector(filename):
         for Interval in Imitation_List:
             for Imitation in Interval:
                 if Imitation[3]>=2*Imitation[5]:
-                    SF_List.append([Imitation[0],Imitation[1],Imitation[2],round(Imitation[3]/Piece[5][-1].offset*100),round(Imitation[4]/Imitation[3],2)])
+                    SF_List.append([Imitation[0],Imitation[1],Imitation[2],round(Imitation[3]/Piece.asTimespans()[-1].offset*100),round(Imitation[4]/Imitation[3],2)])
                 else:
                     pass
     return SF_List
