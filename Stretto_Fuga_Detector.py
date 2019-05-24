@@ -85,7 +85,9 @@ def ImitationDetector(score):
                 if list(Lower_voice.items())[l+1][0]+k in Upper_voice:
                     if DiagInterval(Lower_voice[list(Lower_voice.items())[l][0]][0],Upper_voice[list(Lower_voice.items())[l][0]+k][0]) == DiagInterval(Lower_voice[list(Lower_voice.items())[l+1][0]][0],Upper_voice[list(Lower_voice.items())[l+1][0]+k][0]):
                         B=B+1
-                        if B==3:
+                        if DiagInterval(Lower_voice[list(Lower_voice.items())[l][0]][0],Upper_voice[list(Lower_voice.items())[l][0]+k][0]) == 'Rest':
+                            pass
+                        elif B==3:
                             Imitation.append(["Measure {}".format(Lower_voice[list(Lower_voice.items())[l-2][0]][1]),Values[abs(k)],DiagInterval(Lower_voice[list(Lower_voice.items())[l][0]][0],Upper_voice[list(Lower_voice.items())[l][0]+k][0])+" "+Emplacement,Lower_voice[list(Lower_voice.items())[l-2][0]][2],None,score[5][Lower_voice[list(Lower_voice.items())[l-1][0]][1]].duration.quarterLength])
                         else:
                             pass
