@@ -22,7 +22,6 @@ def DiagInterval(note1,note2):
         return interval.notesToInterval(note1,note2).niceName.split()[1]
 
 def ImitationDetector(score):
-
     Values = {
     0: "Parallel motion",1: "Crotchet",2: "Minime",3: "Doted minime",4: "Semibreve",5: "",6: "Doted semibreve",7: "",8: "Breve",9:"",10:"",11:"",12:"Doted breve",13:"",14:"",15:"",16: "Longa"
              }
@@ -158,7 +157,7 @@ def ImitationDetector(score):
     return Imitation_list
 
 
-def SFDetector():
+def SFDetector(filename):
     Piece=corpus.parse(filename)
     SF_List=[[Piece[2].content,Piece[1].content,Piece[0].content]]
     try:
@@ -176,7 +175,7 @@ def SFDetector():
     return SF_List
 
 
-def SIDetector():
+def SIDetector(filename):
     Piece=corpus.parse(filename)
     SI_List=[[Piece[2].content,Piece[1].content,Piece[0].content]]
     try:
@@ -196,5 +195,5 @@ def SIDetector():
 
 if __name__ == '__main__':
     LoadCorpora(load_josquin=True, load_larue=True)
-    filename = 'Josquin Missa Ave maris stella - Agnus II.xml'
-    print(SFDetector())
+    test_file = 'Josquin Missa Ave maris stella - Agnus II.xml'
+    print(SFDetector(test_file))
