@@ -3,8 +3,10 @@ import os
 from music21 import *
 from collections import OrderedDict
 
-Josquin_secure_corpus=corpus.corpora.LocalCorpus()
-Josquin_secure_corpus.addPath('../Mass duos Josquin - De La Rue/Josquin (secure)/XML')
+Josquin_secure=corpus.corpora.LocalCorpus()
+La_rue_secure=corpus.corpora.LocalCorpus()
+Josquin_secure.addPath('mass-duos-corpus-josquin-larue/Josquin (secure)/XML')
+La_rue_secure.addPath('mass-duos-corpus-josquin-larue/La Rue (secure)/XML')
 Piece=corpus.parse('Josquin Missa Ave maris stella - Agnus II.xml')
 
 def DiagInterval(note1,note2):
@@ -154,7 +156,6 @@ def ImitationDetector(score):
 
 
 def SFDetector(score):
-
     Piece=corpus.parse(filename)
     SF_List=[[Piece[2].content,Piece[1].content,Piece[0].content]]
     try:
@@ -173,7 +174,6 @@ def SFDetector(score):
 
 
 def SIDetector(score):
-
     Piece=corpus.parse(filename)
     SI_List=[[Piece[2].content,Piece[1].content,Piece[0].content]]
     try:
@@ -190,8 +190,8 @@ def SIDetector(score):
                     pass
     return SI_List
 
-for filename in os.listdir('../Mass duos Josquin - De La Rue/Josquin (secure)/XML'):
-    if filename.endswith(".xml"):
+for filename in os.listdir('mass-duos-corpus-josquin-larue/Josquin (secure)/XML'):
+    if filename.endswith("Josquin Missa Ave maris stella - Agnus II.xml"):
         print(SFDetector(filename))
         continue
     else:
