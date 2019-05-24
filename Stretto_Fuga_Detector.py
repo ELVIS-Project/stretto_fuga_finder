@@ -23,8 +23,24 @@ def DiagInterval(note1,note2):
 
 def ImitationDetector(score):
     Values = {
-    0: "Parallel motion",1: "Crotchet",2: "Minime",3: "Doted minime",4: "Semibreve",5: "",6: "Doted semibreve",7: "",8: "Breve",9:"",10:"",11:"",12:"Doted breve",13:"",14:"",15:"",16: "Longa"
-             }
+        0: "Parallel motion",
+        1: "Crotchet",
+        2: "Minime",
+        3: "Doted minime",
+        4: "Semibreve",
+        5: "",
+        6: "Doted semibreve",
+        7: "",
+        8: "Breve",
+        9:"",
+        10:"",
+        11:"",
+        12:"Doted breve",
+        13:"",
+        14:"",
+        15:"",
+        16: "Longa"
+    }
 
     Parts=instrument.partitionByInstrument(score)
 
