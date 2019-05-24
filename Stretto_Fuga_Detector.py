@@ -7,11 +7,9 @@ from collections import OrderedDict
 def LoadCorpora(load_josquin=True, load_larue=True):
     ''' Loads the corpora to study '''
     if load_josquin == True:
-        josquin_secure=corpus.corpora.LocalCorpus()
-        josquin_secure.addPath('./mass-duos-corpus-josquin-larue/Josquin (secure)/XML')
+        corpus.addPath('./mass-duos-corpus-josquin-larue/Josquin (secure)/XML')
     if load_larue == True:
-        larue_secure=corpus.corpora.LocalCorpus()
-        larue_secure.addPath('./mass-duos-corpus-josquin-larue/La Rue (secure)/XML')
+        corpus.addPath('./mass-duos-corpus-josquin-larue/La Rue (secure)/XML')
 
 def DiagInterval(note1,note2):
     if note1 == 'Rest':
@@ -42,10 +40,10 @@ def ImitationDetector(score):
         16: "Longa"
     }
 
-    Parts=instrument.partitionByInstrument(score)
+    Parts= [p.flat for p in score.parts]
 
-    L_upp=len(Parts.parts[0].notesAndRests.stream())
-    L_low=len(Parts.parts[1].notesAndRests.stream())
+    L_upp=len(Parts[0].notesAndRests.stream())
+    L_low=len(Parts[1].notesAndRests.stream())
     L=min(L_upp, L_low)
 
     Upper_voice = OrderedDict()
@@ -88,7 +86,7 @@ def ImitationDetector(score):
                     if DiagInterval(Lower_voice[list(Lower_voice.items())[l][0]][0],Upper_voice[list(Lower_voice.items())[l][0]+k][0]) == DiagInterval(Lower_voice[list(Lower_voice.items())[l+1][0]][0],Upper_voice[list(Lower_voice.items())[l+1][0]+k][0]):
                         B=B+1
                         if B==3:
-                            Imitation.append(["Measure {}".format(Lower_voice[list(Lower_voice.items())[l-2][0]][1]),Values[abs(k)],DiagInterval(Lower_voice[list(Lower_voice.items())[l][0]][0],Upper_voice[list(Lower_voice.items())[l][0]+k][0])+" "+Emplacement,Lower_voice[list(Lower_voice.items())[l-2][0]][2],None,Piece[5][Lower_voice[list(Lower_voice.items())[l-1][0]][1]].duration.quarterLength])
+                            Imitation.append(["Measure {}".format(Lower_voice[list(Lower_voice.items())[l-2][0]][1]),Values[abs(k)],DiagInterval(Lower_voice[list(Lower_voice.items())[l][0]][0],Upper_voice[list(Lower_voice.items())[l][0]+k][0])+" "+Emplacement,Lower_voice[list(Lower_voice.items())[l-2][0]][2],None,score[5][Lower_voice[list(Lower_voice.items())[l-1][0]][1]].duration.quarterLength])
                         else:
                             pass
                     elif DiagInterval(Lower_voice[list(Lower_voice.items())[l+1][0]][0],Upper_voice[list(Lower_voice.items())[l+1][0]+k][0])=='Rest':
@@ -211,5 +209,6 @@ def SIDetector(filename):
 
 if __name__ == '__main__':
     LoadCorpora(load_josquin=True, load_larue=True)
-    test_file = 'Josquin Missa Ave maris stella - Agnus II.xml'
-    print(SFDetector(test_file))
+    for f in corpus.getLocalPaths():
+        print(SFDetector(f))
+    # print(SFDetector(corpus.getWork('Et in spiritum')))
