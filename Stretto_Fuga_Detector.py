@@ -155,25 +155,45 @@ def ImitationDetector(score):
 
 def SFDetector(score):
 
+    Piece=corpus.parse(filename)
     SF_List=[[Piece[2].content,Piece[1].content,Piece[0].content]]
-    Imitation_List=ImitationDetector(score)
-    for Interval in Imitation_List:
-        for Imitation in Interval:
-            if Imitation[3]>=2*Imitation[5]:
-                SF_List.append([Imitation[0],Imitation[1],Imitation[2],round(Imitation[3]/Piece[5][-1].offset*100),round(Imitation[4]/Imitation[3],2)])
-            else:
-                pass
+    try:
+        ImitationDetector(Piece)
+    except:
+        SF_List.append("Error")
+    else:
+        Imitation_List=ImitationDetector(Piece)
+        for Interval in Imitation_List:
+            for Imitation in Interval:
+                if Imitation[3]>=2*Imitation[5]:
+                    SF_List.append([Imitation[0],Imitation[1],Imitation[2],round(Imitation[3]/Piece[5][-1].offset*100),round(Imitation[4]/Imitation[3],2)])
+                else:
+                    pass
     return SF_List
 
 
 def SIDetector(score):
 
+    Piece=corpus.parse(filename)
     SI_List=[[Piece[2].content,Piece[1].content,Piece[0].content]]
-    Imitation_List=ImitationDetector(score)
-    for Interval in Imitation_List:
-        for Imitation in Interval:
-            if Imitation[3]<2*Imitation[5]:
-                SI_List.append([Imitation[0],Imitation[1],Imitation[2]])
-            else:
-                pass
+    try:
+        ImitationDetector(Piece)
+    except:
+        SI_List.append("Error")
+    else:
+        Imitation_List=ImitationDetector(Piece)
+        for Interval in Imitation_List:
+            for Imitation in Interval:
+                if Imitation[3]<2*Imitation[5]:
+                    SI_List.append([Imitation[0],Imitation[1],Imitation[2]])
+                else:
+                    pass
     return SI_List
+
+for filename in os.listdir('../Mass duos Josquin - De La Rue/Josquin (secure)/XML'):
+    if filename.endswith(".xml"):
+        print(SFDetector(filename))
+        continue
+    else:
+        pass
+        continue
