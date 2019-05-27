@@ -86,22 +86,6 @@ def ImitationDetector(score):
                             pass
                     elif DiagInterval(Lower_voice[list(Lower_voice.items())[l+1][0]][0],Upper_voice[list(Lower_voice.items())[l+1][0]+k][0])=='Rest':
                             pass
-                    #    if list(Lower_voice.items())[l+2][0]+k in Upper_voice:
-                    #         if DiagInterval(Lower_voice[list(Lower_voice.items())[l][0]][0],Upper_voice[list(Lower_voice.items())[l][0]+k][0]) == DiagInterval(Lower_voice[list(Lower_voice.items())[l+2][0]][0],Upper_voice[list(Lower_voice.items())[l+2][0]+k][0]):
-                    #             B=B+1
-                    #         else:
-                    #             if Imitation!=[]:
-                    #                 if Imitation[-1][4]!=None:
-                    #                     pass
-                    #                 else:
-                    #                     Imitation[-1][0]=Imitation[-1][0]+" to measure {}".format(Lower_voice[list(Lower_voice.items())[l][0]][1])
-                    #                     Imitation[-1][3]=Lower_voice[list(Lower_voice.items())[l][0]][2]-Imitation[-1][3]
-                    #                     Imitation[-1][4]=B
-                    #             else:
-                    #                 pass
-                    #             B=0
-                    #    else:
-                    #        pass
                     elif DiagInterval(Lower_voice[list(Lower_voice.items())[l][0]][0],Upper_voice[list(Lower_voice.items())[l][0]+k][0])=='Rest':
                         if list(Lower_voice.items())[l-1][0]+k in Upper_voice:
                             if DiagInterval(Lower_voice[list(Lower_voice.items())[l-1][0]][0],Upper_voice[list(Lower_voice.items())[l-1][0]+k][0]) == DiagInterval(Lower_voice[list(Lower_voice.items())[l+1][0]][0],Upper_voice[list(Lower_voice.items())[l+1][0]+k][0]):
