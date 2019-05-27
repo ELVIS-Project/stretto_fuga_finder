@@ -74,8 +74,8 @@ def ImitationDetector(score):
         B=0
 
         for l in range (0,L-1):
-            if list(Lower_voice.items())[l][0]+k in Upper_voice:
-                if list(Lower_voice.items())[l+1][0]+k in Upper_voice:
+            if list(Lower_voice.keys())[l] + k in Upper_voice:
+                if list(Lower_voice.keys())[l+1] + k in Upper_voice:
                     if DiagInterval(Lower_voice[list(Lower_voice.items())[l][0]][0],Upper_voice[list(Lower_voice.items())[l][0]+k][0]) == DiagInterval(Lower_voice[list(Lower_voice.items())[l+1][0]][0],Upper_voice[list(Lower_voice.items())[l+1][0]+k][0]):
                         B=B+1
                         if DiagInterval(Lower_voice[list(Lower_voice.items())[l][0]][0],Upper_voice[list(Lower_voice.items())[l][0]+k][0]) == 'Rest':
