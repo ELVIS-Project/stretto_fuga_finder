@@ -189,6 +189,14 @@ def SIDetector(filename):
 
 if __name__ == '__main__':
     LoadCorpora(load_josquin=True, load_larue=True)
+    sf_list = []
     for f in corpus.getLocalPaths():
-        print(SFDetector(f))
+        print(f)
+        sf_list.append(SFDetector(f))
+    for piece in sf_list:
+        metadata = piece[0]
+        for sf in piece[1:]:
+            print('{}, {}, {}, {}, {}, {}, {}, {}'.format(metadata[0], metadata[1], metadata[2], sf[0], sf[1], sf[2], sf[3], sf[4]))
     # print(SFDetector(corpus.getWork('Et in spiritum')))
+
+
