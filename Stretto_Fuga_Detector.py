@@ -116,7 +116,7 @@ def ImitationDetector(score):
                                 Imitation[-1][1] = Lower_voice[list(Lower_voice.items())[l][0]][1]
                                 Imitation[-1][4] = Lower_voice[list(Lower_voice.items())[l][0]][2] - Imitation[-1][4]
                                 Imitation[-1][5] = B
-                                Imitation[-1][7] = D/k
+                                Imitation[-1][7] = D/abs(k)
                         else:
                             pass
                         B = 0
@@ -128,7 +128,7 @@ def ImitationDetector(score):
                             Imitation[-1][1] = Lower_voice[list(Lower_voice.items())[l][0]][1]
                             Imitation[-1][4] = Lower_voice[list(Lower_voice.items())[l][0]][2] - Imitation[-1][4]
                             Imitation[-1][5] = B
-                            Imitation[-1][7] = D/k
+                            Imitation[-1][7] = D/abs(k)
                     else:
                         pass
                     B = 0
@@ -153,7 +153,7 @@ def ImitationDetector(score):
                                     Imitation[-1][1] = Lower_voice[list(Lower_voice.items())[l][0]][1]
                                     Imitation[-1][4] = Lower_voice[list(Lower_voice.items())[l][0]][2] - Imitation[-1][4]
                                     Imitation[-1][5] = B
-                                    Imitation[-1][7] = D/k
+                                    Imitation[-1][7] = D/abs(k)
                             else:
                                 pass
                             B = 0
@@ -167,7 +167,7 @@ def ImitationDetector(score):
                                 Imitation[-1][1] = Lower_voice[list(Lower_voice.items())[l][0]][1]
                                 Imitation[-1][4] = Lower_voice[list(Lower_voice.items())[l][0]][2] - Imitation[-1][4]
                                 Imitation[-1][5] = B
-                                Imitation[-1][7] = D/k
+                                Imitation[-1][7] = D/abs(k)
                         else:
                             pass
                         B = 0
@@ -179,7 +179,7 @@ def ImitationDetector(score):
                 Imitation[-1][1] = Lower_voice[list(Lower_voice.items())[l][0]][1]
                 Imitation[-1][4] = Lower_voice[list(Lower_voice.items())[l][0]][2]-Imitation[-1][4]
                 Imitation[-1][5] = B
-                Imitation[-1][7] = D/k
+                Imitation[-1][7] = D/abs(k)
                 Imitation_list.append(Imitation)
                 Imitation = []
         else:
