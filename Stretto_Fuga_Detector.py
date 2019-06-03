@@ -97,9 +97,13 @@ def ImitationDetector(score):
         if list(Lower_voice.keys())[0] + k in Upper_voice:
             I = DiagInterval(Lower_voice[list(Lower_voice.items())[0][0]][0], Upper_voice[list(Lower_voice.items())[0][0]+k][0])
             D = Lower_voice[0][4]
+            Init = Lower_voice[list(Lower_voice.items())[0][0]][1]
+            Len = Lower_voice[list(Lower_voice.items())[0][0]][2]
         else:
             I = None
             D = 0
+            Init = None
+            Len = 0
         Imitation = []
         B = 0
 
@@ -142,7 +146,7 @@ def ImitationDetector(score):
                         if DiagInterval(Lower_voice[list(Lower_voice.items())[l][0]][0],Upper_voice[list(Lower_voice.items())[l][0]+k][0]) == I:
                             B = B+1
                             if B == 3:
-                                Imitation.append([Lower_voice[list(Lower_voice.items())[l-3][0]][1], None, Values[abs(k)], I + " " + Emplacement, Lower_voice[list(Lower_voice.items())[l-3][0]][2], None, score.measure(Lower_voice[list(Lower_voice.items())[l][0]][1]).duration.quarterLength, None])
+                                Imitation.append([Init, None, Values[abs(k)], I + " " + Emplacement, Lower_voice[list(Lower_voice.items())[l-3][0]][2], None, score.measure(Lower_voice[list(Lower_voice.items())[l][0]][1]).duration.quarterLength, None])
                             else:
                                 pass
                         else:
@@ -159,6 +163,8 @@ def ImitationDetector(score):
                             B = 0
                             I = DiagInterval(Lower_voice[list(Lower_voice.items())[l][0]][0], Upper_voice[list(Lower_voice.items())[l][0]+k][0])
                             D = Lower_voice[list(Lower_voice.items())[l][0]][4]
+                            Init = Lower_voice[list(Lower_voice.items())[l][0]][1]
+                            Lower_voice[list(Lower_voice.items())[l][0]][2]
                     else:
                         if Imitation != []:
                             if Imitation[-1][5] != None:
@@ -217,7 +223,7 @@ def Short_imitation_Detector(filename):
         for Interval in Imitation_list:
             for Imitation in Interval:
                 if Imitation[4]<2*Imitation[6]:
-                    SI_List.append([Imitation[0], Imitation[1], Imitation[2], Imitation[3], Stretto_Fuga_detector(Imitation[7], round(Imitation[4]/Piece.asTimespans()[-1].offset*100), Imitation[2])])
+                    SI_List.append([Imitation[0], Imitation[1], Imitation[2], Imitation[3], round(Imitation[4]/Piece.asTimespans()[-1].offset*100), round(Imitation[5]/Imitation[4],2), Stretto_Fuga_detector(Imitation[7], round(Imitation[4]/Piece.asTimespans()[-1].offset*100), Imitation[2])])
                 else:
                     pass
     return SI_List
@@ -240,7 +246,7 @@ if __name__ == '__main__':
     for piece in si_list:
         metadata = piece[0]
         for si in piece[1:]:
-            si_csv_str = '{}, {}, {}, {}, {}, {}, {}, {}'.format(metadata[0], metadata[1], metadata[2], si[0], si[1], si[2], si[3], si[4])
+            si_csv_str = '{}, {}, {}, {}, {}, {}, {}, {}, {}, {}'.format(metadata[0], metadata[1], metadata[2], si[0], si[1], si[2], si[3], si[4], si[5], si[6])
             si_CSV_data.append(si_csv_str.split(','))
     with open('Long_Imitation.csv', 'w') as csvFile:
         writer = csv.writer(csvFile)
