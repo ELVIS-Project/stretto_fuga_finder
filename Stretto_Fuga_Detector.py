@@ -23,16 +23,15 @@ def DiagInterval(note1,note2):
 
 
 def Stretto_Fuga_detector(duration_1, duration_2, interval):
-    if duration_2 >= 90:
-        return "Canonic Piece"
+    if duration_2 >= 85:
+        if interval in ["Minime", "Doted minime", "Semibreve"]:
+            return "Stretto Fuga Canon"
+        else:
+            return "Canonic Piece"
     else:
         if interval in ["Minime", "Doted minime", "Semibreve"]:
-            if duration_1 == 1:
-                return "Strict Stretto Fuga"
-            elif 1 < duration_1 <= 2:
+            if 1 <= duration_1 <= 2:
                 return "Stretto Fuga"
-            elif duration_1 == 1/2:
-                return "Double Option"
             else:
                 return " "
         else:
@@ -143,7 +142,29 @@ def ImitationDetector(score):
                     pass
                 else:
                     if list(Lower_voice.keys())[l] + k in Upper_voice:
-                        if DiagInterval(Lower_voice[list(Lower_voice.items())[l][0]][0],Upper_voice[list(Lower_voice.items())[l][0]+k][0]) == I:
+                        if Upper_voice[list(Lower_voice.items())[l][0]+k][3] == 'stop':
+                            if Imitation != []:
+                                if Imitation[-1][5] != None:
+                                    pass
+                                else:
+                                    Imitation[-1][1] = Lower_voice[list(Lower_voice.items())[l][0]][1]
+                                    Imitation[-1][4] = Lower_voice[list(Lower_voice.items())[l][0]][2] - Imitation[-1][4]
+                                    Imitation[-1][5] = B
+                                    Imitation[-1][7] = D/abs(k)
+                            else:
+                                pass
+                        elif Upper_voice[list(Lower_voice.items())[l][0]+k][3] == 'continue':
+                            if Imitation != []:
+                                if Imitation[-1][5] != None:
+                                    pass
+                                else:
+                                    Imitation[-1][1] = Lower_voice[list(Lower_voice.items())[l][0]][1]
+                                    Imitation[-1][4] = Lower_voice[list(Lower_voice.items())[l][0]][2] - Imitation[-1][4]
+                                    Imitation[-1][5] = B
+                                    Imitation[-1][7] = D/abs(k)
+                            else:
+                                pass
+                        elif DiagInterval(Lower_voice[list(Lower_voice.items())[l][0]][0],Upper_voice[list(Lower_voice.items())[l][0]+k][0]) == I:
                             B = B+1
                             if B == 3:
                                 Imitation.append([Init, None, Values[abs(k)], I + " " + Emplacement, Lower_voice[list(Lower_voice.items())[l-3][0]][2], None, score.measure(Lower_voice[list(Lower_voice.items())[l][0]][1]).duration.quarterLength, None])
