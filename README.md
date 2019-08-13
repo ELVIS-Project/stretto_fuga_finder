@@ -30,7 +30,7 @@ The program is composed of six sub-programs:
 5. the Imitation_Detector sub-program - detects all imitations between two instrumental parts
 6. the Imitation_Parameters sub-program - classifies and arranges the results according to our musicological needs
 
-The code here requires the `music21`, `os`, `csv`, `argparse`, and `numpy` python packages
+The code here requires the `music21`, `sys`, `os`, `csv`, `argparse`, and `numpy` python packages
 
 
 ## Running the code
