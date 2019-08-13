@@ -1,4 +1,5 @@
 import numpy as np
+import sys
 import os
 import csv
 import argparse
@@ -7,7 +8,34 @@ from collections import OrderedDict
 
 
 
-'''IMAN (for IMitation ANalyzer) is a program developed in 2019 by Sylvain Margot, in collaboration with Néstor Nápoles López and Laurent Feisthauer. \n \n This program detects imitations within Josquin\'s and La Rue\'s masses duos. \n \n An imitation can be sub-divided into two parts: the fragment (the part that is melodically exactly imitated) and the core (the part that is melodically and rhythmically exactly imitated). These two parts often coincide, but not always. For each imitation, the program outputs several datas: where it begins and where it ends in both voices (float, "measure.semiminim"), its time interval of imitation (float, "in semiminims"), its pitch interval of imitation (string, "diatonic interval"), the length of its core (float, "in semiminims"), the number of notes (integer, "number of notes"), the length of the piece (float, "in semiminims"), its rhythmic density (float, "an average of 1 would correspond to a fragment made of semiminims only, an average of 0.5 to a fragment made of minims only, etc.), and finally its characteristic (string, "Depending on the length of its core and its time interval of imitation, an imitation can be considered as a Stretto Fuga, Canonic piece, Stretto Fuga canonic piece, or as a simple imitation"). \n The program takes as inputs a Canon_threshold (integer, "the minimum ratio between an imitation and its piece to consider the lattest as a canon"), a Notes_threshold (integer, "the minimum amount of notes in the imitation core to keep record of it"), a Duration_threshold (float, "the minimum duration of the imitation core to keep record of it (in semiminims)"), Corpora (list of strings, "the name of the corpora we consider"), and a File_name (string, "the name of the .csv file we want as a final result")\n \n The program is composed of six sub-programs: \n 1) the Continuous_Part sub-program - It returns a instrumental part as a string of events. All tied notes are reduced to a single note with its real duration (Real_dur) \n 2) the Diag_Interval sub-program - It returns the melodic interval between two events if they are both notes, or returns "Rest" if at least one of the events is a rest \n 3) the Stretto_Fuga_Detector sub-program. It classifies an imitation as a Stretto Fuga, a canonic piece, or a Stretto Fuga canonic piece according to its Time Interval and the length of its core \n 4) the Load_Corpora sub-program - It loads the corpora you want to analyze \n 5) the Imitation_Detector sub-program - It detects all imitations between two instrumental parts \n 6) the Imitation_Parameters sub-program - It classifies and arranges the results according to our musicological needs'''
+'''IMAN (for IMitation ANalyzer) is a program developed in 2019 by Sylvain Margot, in collaboration with Néstor Nápoles López and Laurent Feisthauer. It works in python3, using music21. <br /> <br /> This program detects imitations within Josquin\'s and La Rue\'s masses duos. An imitation can be sub-divided into two parts: the fragment (the part that is melodically exactly imitated) and the core (the part that is melodically and rhythmically exactly imitated). These two parts often coincide, but not always.
+
+For each imitation, the program outputs several datas:
+- where it begins and where it ends in both voices (measure.semiminim),
+- its time interval of imitation (in semiminims),
+- its pitch interval of imitation (as a diatonic interval),
+- the length of its core (in semiminims),
+- the number of notes (number of notes),
+- the length of the piece (in semiminims),
+- its rhythmic density (an average of 1 would correspond to a fragment made of semiminims only, an average of 0.5 to a fragment made of minims only, etc.),
+- and its characteristic (depending on the length of its core and its time interval of imitation, an imitation can be considered as a Stretto Fuga, Canonic piece, Stretto Fuga canonic piece, or as a simple imitation).
+
+The program takes as inputs:
+- a Canon_threshold (integer) - the minimum ratio between an imitation and its piece to consider the lattest as a canon (in percentage),
+- a Notes_threshold (integer) - the minimum amount of notes in the imitation core to keep record of it,
+- a Duration_threshold (float) - the minimum duration of the imitation core to keep record of it (in semiminims),
+- a File_name (string) - the name of the .csv file we want as a final result,
+- and Corpora (list of strings) - the name of the corpora we consider,
+
+The program is composed of six sub-programs:
+1. the Continuous_Part sub-program - returns a instrumental part as a string of events. All tied notes are reduced to a single note with its real duration (Real_dur)
+2. the Diag_Interval sub-program - returns the melodic interval between two events if they are both notes, or returns "Rest" if at least one of the events is a rest
+3. the Stretto_Fuga_Detector sub-program - classifies an imitation as a Stretto Fuga, a canonic piece, or a Stretto Fuga canonic piece according to its Time Interval and the length of its core
+4. the Load_Corpora sub-program - loads the corpora you want to analyze
+5. the Imitation_Detector sub-program - detects all imitations between two instrumental parts
+6. the Imitation_Parameters sub-program - classifies and arranges the results according to our musicological needs
+
+The code here requires the `music21`, `sys`, `os`, `csv`, `argparse`, and `numpy` python packages'''
 
 
 
@@ -17,12 +45,13 @@ parser = argparse.ArgumentParser(
 parser.add_argument('float', metavar='Canon_threshold', type=float, help='The minimum ratio between an imitation and its piece to consider the lattest as a canon in percentage (float)')
 parser.add_argument('integer', metavar='Notes_threshold', type=int, help='The minimum amount of notes in the imitation core to keep record of it (integer)')
 parser.add_argument('integer', metavar='Duration_threshold', type=int, help='The minimum duration of the imitation core to keep record of it in semiminims (integer)')
-parser.add_argument('list of strings', metavar='Corpora', type=list, help='The name of the corpora we consider (list of strings)')
 parser.add_argument('string', metavar='File_name', type=str, help='The name of the .csv file we want as a final result (string)')
+parser.add_argument('list of strings', metavar='Corpora', type=list, nargs = '+', help='The name of the corpora we consider (list of strings)')
 args = parser.parse_args()
 
 
-def Imitation_Analyzer(Canon_threshold, Notes_threshold, Duration_threshold, Corpora, File_name):
+
+def Imitation_Analyzer(Canon_threshold, Notes_threshold, Duration_threshold, File_name, Corpora):
     '''Imitation_Analyzer centralizes the execution of the sub-programs, the parameters inputs, and the output of results as a .csv file'''
 
     if __name__ == '__main__':
@@ -357,3 +386,14 @@ def Imitation_Parameters(Canon_threshold, Notes_threshold, Duration_threshold, f
                 else:
                     pass
     return Piece_imitations
+
+
+
+if __name__ == "__main__":
+    Canon_threshold = float(sys.argv[1])
+    Notes_threshold = int(sys.argv[2])
+    Duration_threshold = int(sys.argv[3])
+    File_name = str(sys.argv[4])
+    Corpora = list(sys.argv[5])
+
+    Imitation_Analyzer(Canon_threshold, Notes_threshold, Duration_threshold, File_name, Corpora)
