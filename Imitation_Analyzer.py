@@ -54,21 +54,20 @@ args = parser.parse_args()
 def Imitation_Analyzer(Canon_threshold, Notes_threshold, Duration_threshold, File_name, Corpora):
     '''Imitation_Analyzer centralizes the execution of the sub-programs, the parameters inputs, and the output of results as a .csv file'''
 
-    if __name__ == '__main__':
-        Load_Corpora(Corpora)
-        Corpora_imitations = []
-        Piece_CSV_data = [['Composer', 'Piece', 'Movement', 'Beginning of the imitation at the lower voice', 'End of the imitation at the lower voice', 'Beginning of the imitation at the upper voice', 'End of the imitation at the upper voice', 'Time interval of imitation (in semi-minims)', 'Pitch interval of imitation', 'Length of the core (in semi-minims)', 'Length of the fragment (number of notes)', 'Length of the piece (in semi-minims)', 'Rhythmic density', 'Characteristics']]
-        for file in corpus.getLocalPaths():
-            Corpora_imitations.append(Imitation_Parameters(Canon_threshold, Notes_threshold, Duration_threshold, file))
-        for score in Corpora_imitations:
-            metadata = score[0]
-            for li in score[1:]:
-                Piece_csv_str = '{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}'.format(metadata[0], metadata[1], metadata[2], li[0], li[1], li[2], li[3], li[4], li[5], li[6], li[7], li[8], li[9], li[10])
-                Piece_CSV_data.append(Piece_csv_str.split(','))
-        with open(File_name, 'w') as csvFile:
-            writer = csv.writer(csvFile)
-            writer.writerows(Piece_CSV_data)
-        csvFile.close()
+    Load_Corpora(Corpora)
+    Corpora_imitations = []
+    Piece_CSV_data = [['Composer', 'Piece', 'Movement', 'Beginning of the imitation at the lower voice', 'End of the imitation at the lower voice', 'Beginning of the imitation at the upper voice', 'End of the imitation at the upper voice', 'Time interval of imitation (in semi-minims)', 'Pitch interval of imitation', 'Length of the core (in semi-minims)', 'Length of the fragment (number of notes)', 'Length of the piece (in semi-minims)', 'Rhythmic density', 'Characteristics']]
+    for file in corpus.getLocalPaths():
+        Corpora_imitations.append(Imitation_Parameters(Canon_threshold, Notes_threshold, Duration_threshold, file))
+    for score in Corpora_imitations:
+        metadata = score[0]
+        for li in score[1:]:
+            Piece_csv_str = '{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}'.format(metadata[0], metadata[1], metadata[2], li[0], li[1], li[2], li[3], li[4], li[5], li[6], li[7], li[8], li[9], li[10])
+            Piece_CSV_data.append(Piece_csv_str.split(','))
+    with open(File_name, 'w') as csvFile:
+        writer = csv.writer(csvFile)
+        writer.writerows(Piece_CSV_data)
+    csvFile.close()
 
 
 
