@@ -1,5 +1,5 @@
 # Imitation_Analyzer
-Algorithm based on music21 for detecting stretto fuga patterns
+This program detects imitations between instrumental voices. It takes MusicXML files as inputs and returns a CVS file as an output using music21.
 
 
 ## Description
