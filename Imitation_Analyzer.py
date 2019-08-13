@@ -37,20 +37,6 @@ The program is composed of six sub-programs:
 
 The code here requires the `music21`, `sys`, `os`, `csv`, `argparse`, and `numpy` python packages'''
 
-
-
-parser = argparse.ArgumentParser(
-    prog='Imitation_Analyzer',
-    description = 'This program detects imitations between instrumental voices. It takes MusicXML files as inputs and returns a CVS file as an output using music21.')
-parser.add_argument('float', metavar='Canon_threshold', type=float, help='The minimum ratio between an imitation and its piece to consider the lattest as a canon in percentage (float)')
-parser.add_argument('integer', metavar='Notes_threshold', type=int, help='The minimum amount of notes in the imitation core to keep record of it (integer)')
-parser.add_argument('integer', metavar='Duration_threshold', type=int, help='The minimum duration of the imitation core to keep record of it in semiminims (integer)')
-parser.add_argument('string', metavar='File_name', type=str, help='The name of the .csv file we want as a final result (string)')
-parser.add_argument('list', metavar='Corpora', type=str, nargs='+',  help='The name of the corpora we consider (list of strings)')
-args = parser.parse_args()
-
-
-
 def Imitation_Analyzer(Canon_threshold, Notes_threshold, Duration_threshold, File_name, Corpora):
     '''Imitation_Analyzer centralizes the execution of the sub-programs, the parameters inputs, and the output of results as a .csv file'''
 
@@ -389,10 +375,20 @@ def Imitation_Parameters(Canon_threshold, Notes_threshold, Duration_threshold, f
 
 
 if __name__ == "__main__":
-    Canon_threshold = float(sys.argv[1])
-    Notes_threshold = int(sys.argv[2])
-    Duration_threshold = int(sys.argv[3])
-    File_name = str(sys.argv[4])
-    Corpora = list(sys.argv[5])
+    parser = argparse.ArgumentParser(
+    prog='Imitation_Analyzer',
+    description = 'This program detects imitations between instrumental voices. It takes MusicXML files as inputs and returns a CVS file as an output using music21.')
+    parser.add_argument('canon_threshold', metavar='Canon_threshold', type=float, help='The minimum ratio between an imitation and its piece to consider the lattest as a canon in percentage (float)')
+    parser.add_argument('notes_threshold', metavar='Notes_threshold', type=int, help='The minimum amount of notes in the imitation core to keep record of it (integer)')
+    parser.add_argument('duration_threshold', metavar='Duration_threshold', type=int, help='The minimum duration of the imitation core to keep record of it in semiminims (integer)')
+    parser.add_argument('file_name', metavar='File_name', type=str, help='The name of the .csv file we want as a final result (string)')
+    parser.add_argument('corpora', metavar='Corpora', type=str, nargs='+',  help='The name of the corpora we consider (list of strings)')
+    args = parser.parse_args()
+    # Canon_threshold = 
+    # Notes_threshold = int(sys.argv[2])
+    # Duration_threshold = int(sys.argv[3])
+    # File_name = str(sys.argv[4])
+    # Corpora = list(sys.argv[5])
 
-    Imitation_Analyzer(Canon_threshold, Notes_threshold, Duration_threshold, File_name, Corpora)
+    Imitation_Analyzer(args.canon_threshold, args.notes_threshold, args.duration_threshold, args.file_name, args.corpora)
+    
