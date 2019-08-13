@@ -1,4 +1,4 @@
-# Imitation_Analyzer
+# Imitation Analyzer (IMAN)
 This program detects imitations between instrumental voices. It takes MusicXML files as inputs and returns a CVS file as an output using music21.
 
 
