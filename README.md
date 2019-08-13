@@ -40,7 +40,7 @@ Clone the repository recursively (this is necessary for getting the `mass-duos-c
 git clone https://github.com/ELVIS-Project/Imitation_Analyzer --recursive
 ```
 
-Run the Stretto Fuga Finder script
+Run IMAN script
 ```
 python3 Imitation_Analyzer.py Canon_threshold Notes_threshold Duration_threshold File_name Corpora
 ```
