@@ -46,7 +46,7 @@ parser.add_argument('float', metavar='Canon_threshold', type=float, help='The mi
 parser.add_argument('integer', metavar='Notes_threshold', type=int, help='The minimum amount of notes in the imitation core to keep record of it (integer)')
 parser.add_argument('integer', metavar='Duration_threshold', type=int, help='The minimum duration of the imitation core to keep record of it in semiminims (integer)')
 parser.add_argument('string', metavar='File_name', type=str, help='The name of the .csv file we want as a final result (string)')
-parser.add_argument('list of strings', metavar='Corpora', type=list, nargs = '+', help='The name of the corpora we consider (list of strings)')
+parser.add_argument('list', metavar='Corpora', type=str, nargs='+',  help='The name of the corpora we consider (list of strings)')
 args = parser.parse_args()
 
 
