@@ -19,8 +19,8 @@ The program takes as inputs:
 - a Canon_threshold (integer) - the minimum ratio between an imitation and its piece to consider the lattest as a canon (in percentage),
 - a Notes_threshold (integer) - the minimum amount of notes in the imitation core to keep record of it,
 - a Duration_threshold (float) - the minimum duration of the imitation core to keep record of it (in semiminims),
-- Corpora (list of strings) - the name of the corpora we consider,
-- and a File_name (string) - the name of the .csv file we want as a final result
+- a File_name (string) - the name of the .csv file we want as a final result,
+- and Corpora (list of strings) - the name of the corpora we consider,
 
 The program is composed of six sub-programs:
 1. the Continuous_Part sub-program - returns a instrumental part as a string of events. All tied notes are reduced to a single note with its real duration (Real_dur)
