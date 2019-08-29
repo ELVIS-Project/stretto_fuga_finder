@@ -37,7 +37,7 @@ The code here requires the `music21`, `sys`, `os`, `csv`, `argparse`, and `numpy
 Clone the repository recursively (this is necessary for getting the `mass-duos-corpus-josquin-larue`, containing the data)
 
 ```
-git clone https://github.com/ELVIS-Project/Imitation_Analyzer --recursive
+git clone https://github.com/ELVIS-Project/stretto_fuga_finder --recursive
 ```
 
 Run IMAN script
